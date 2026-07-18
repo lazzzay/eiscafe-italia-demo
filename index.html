@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eiscafe Italia – Hausgemachtes Eis seit 1953 · Friedrichshafen am Bodensee</title>
+<meta name="description" content="Ein Stückchen Italia am Bodensee: hausgemachtes Eis seit 1953, direkt an der Häfler Promenade in Friedrichshafen. Traditionelle Herstellung, regionale Zutaten, Seepanorama.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Libre+Franklin:wght@400;500;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+  /* ============ Palette: „Gelateria-Schild 1953" ============
+     Pistazie · Panna · Kirschrot · Schokolade · Zabaione     */
+  :root{
+    --pista:#dbe8cc;        /* Pistazie hell — Grundfläche */
+    --pista-deep:#c2d6a8;   /* Pistazie satt — Strahlen, Kanten */
+    --pine:#1e4d38;         /* Schild-Grün dunkel */
+    --pine-deep:#173c2c;
+    --rosso:#c7402d;        /* Kirschrot */
+    --rosso-deep:#a5311f;
+    --panna:#fff9ec;        /* Panna — Schilder, Postkarte */
+    --ciocco:#3a2a20;       /* Schokolade — Text & Footer */
+    --zabaione:#e9b84c;     /* Ei-Gelb — sparsame Akzente */
+    --fragola:#e58fa0;      /* Kugel Erdbeere */
+    --vaniglia:#f6e7bb;     /* Kugel Vanille */
+    --latte:#fdf6e6;        /* Kugel Milch */
+    --waffel:#d9a05b;
+    --waffel-deep:#b97f3f;
+    --hard:6px 6px 0 rgba(58,42,32,.16);
+    --ease:cubic-bezier(.22,1,.36,1); /* ease-out-quint */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Libre Franklin',system-ui,sans-serif;
+    color:var(--ciocco);
+    background:var(--pista);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Bevan',serif;font-weight:400;line-height:1.12;letter-spacing:.005em;text-wrap:balance}
+  p{text-wrap:pretty}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;height:auto;display:block}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .script{font-family:'Yellowtail',cursive;font-weight:400;letter-spacing:0}
+  .skip{position:absolute;left:-9999px;top:0;background:var(--ciocco);color:var(--panna);padding:10px 18px;z-index:200}
+  .skip:focus{left:12px;top:12px}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--zabaione);outline-offset:2px;border-radius:4px}
+
+  /* Demo-Hinweis */
+  .demobar{background:var(--ciocco);color:#f2e7d6;font-size:.8rem;text-align:center;padding:8px 16px;letter-spacing:.02em}
+  .demobar b{color:var(--zabaione);font-weight:600}
+
+  /* ============ Header ============ */
+  header{position:sticky;top:0;z-index:60;background:var(--panna);border-bottom:3px solid var(--pine)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .brand{display:flex;align-items:baseline;gap:10px;line-height:1}
+  .brand .name{font-family:'Bevan',serif;font-size:1.35rem;color:var(--pine)}
+  .brand .dal{font-family:'Yellowtail',cursive;font-size:1.15rem;color:var(--rosso);transform:translateY(1px)}
+  nav ul{display:flex;gap:28px;list-style:none;align-items:center}
+  nav a{font-size:.95rem;font-weight:600;color:var(--pine)}
+  nav a:not(.callbtn){border-bottom:2px solid transparent;padding-bottom:2px}
+  nav a:not(.callbtn):hover{border-bottom-color:var(--rosso)}
+  .callbtn{display:inline-flex;align-items:center;gap:8px;background:var(--rosso);color:var(--panna);padding:10px 18px;border-radius:12px;font-weight:700;font-size:.9rem;border:2px solid var(--rosso-deep);box-shadow:3px 3px 0 rgba(58,42,32,.22);transition:transform .15s var(--ease),box-shadow .15s var(--ease),background .15s}
+  .callbtn:hover{background:var(--rosso-deep);transform:translate(1px,1px);box-shadow:2px 2px 0 rgba(58,42,32,.22)}
+  .burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px;padding:10px}
+  .burger span{width:26px;height:3px;background:var(--pine);display:block;border-radius:2px}
+
+  /* ============ Buttons ============ */
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:12px;font-weight:700;font-size:.98rem;border:2px solid var(--ciocco);box-shadow:4px 4px 0 rgba(58,42,32,.22);transition:transform .15s var(--ease),box-shadow .15s var(--ease),background .15s}
+  .btn:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(58,42,32,.22)}
+  .btn-rosso{background:var(--rosso);border-color:var(--rosso-deep);color:var(--panna)}
+  .btn-rosso:hover{background:var(--rosso-deep)}
+  .btn-panna{background:var(--panna);color:var(--pine)}
+
+  /* ============ Hero ============ */
+  .hero{position:relative;overflow:hidden;padding:64px 0 96px}
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:36px;align-items:center}
+  .hero .claim{font-size:clamp(1.6rem,3vw,2.2rem);color:var(--rosso);display:block;margin-bottom:10px}
+  .hero h1{font-size:clamp(2.15rem,5.4vw,4.1rem);color:var(--pine);max-width:14ch}
+  .hero p.lead{font-size:clamp(1.02rem,1.7vw,1.22rem);max-width:52ch;margin-top:20px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:32px}
+  .hero-visual{position:relative;min-height:520px}
+  .rays{position:absolute;inset:auto;top:50%;left:58%;width:560px;height:560px;transform:translate(-50%,-50%);border-radius:50%;
+    background:repeating-conic-gradient(from 8deg, var(--pista-deep) 0deg 9deg, transparent 9deg 24deg);
+    opacity:.42;animation:spin 90s linear infinite}
+  @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  .cone-hero{position:absolute;top:-4px;left:59%;transform:translateX(-50%);height:590px;width:auto;filter:drop-shadow(9px 11px 0 rgba(58,42,32,.16))}
+  .postcard{position:absolute;left:-6px;bottom:-8px;width:min(310px,58%);background:var(--panna);padding:12px 12px 40px;border:1px solid #e8ddc4;box-shadow:var(--hard);transform:rotate(-3deg)}
+  .postcard img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+  .postcard .pc-cap{position:absolute;left:14px;bottom:9px;font-family:'Yellowtail',cursive;font-size:1.2rem;color:var(--pine)}
+  .stamp{position:absolute;top:-18px;right:-14px;width:86px;transform:rotate(5deg)}
+  .postmark{position:absolute;top:-6px;right:58px;width:92px;opacity:.55;transform:rotate(-8deg)}
+
+  /* Pop-Erscheinen (sichtbar per Default; nur mit JS + Motion versteckt) */
+  html.js .pop{opacity:0;transform:translateY(14px)}
+  html.js .pop.in{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  html.js .cone-hero{opacity:0;transform:translateX(-50%) translateY(-24px) scale(.95)}
+  html.js .cone-hero.in{opacity:1;transform:translateX(-50%);transition:opacity .55s var(--ease),transform .7s var(--ease)}
+
+  /* ============ Markise (Valance) ============ */
+  .valance{height:58px;background:repeating-linear-gradient(90deg,var(--rosso) 0 40px,var(--panna) 40px 80px);
+    -webkit-mask-image:radial-gradient(circle 22px at 22px 34px,#000 21px,transparent 22px),linear-gradient(#000 0 34px,transparent 34px);
+    -webkit-mask-size:44px 100%,100% 100%;-webkit-mask-repeat:repeat-x,no-repeat;
+    mask-image:radial-gradient(circle 22px at 22px 34px,#000 21px,transparent 22px),linear-gradient(#000 0 34px,transparent 34px);
+    mask-size:44px 100%,100% 100%;mask-repeat:repeat-x,no-repeat}
+
+  /* Kugel-Kante: Vorgänger-Farbe wölbt sich in die nächste Fläche */
+  .scallop{height:22px;background-image:radial-gradient(circle 22px at 22px 0,var(--sc) 21px,transparent 22px);background-size:44px 22px;background-repeat:repeat-x}
+
+  /* ============ Sections ============ */
+  section{padding:88px 0}
+  h2{font-size:clamp(1.7rem,3.4vw,2.7rem);color:var(--pine)}
+  .kicker{display:block;font-size:clamp(1.5rem,2.6vw,2rem);color:var(--rosso);margin-bottom:6px}
+
+  /* Story */
+  .story{background:var(--panna);padding-top:64px}
+  .story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .story p{margin-top:18px;font-size:1.04rem;max-width:58ch}
+  .story b{color:var(--pine)}
+  .years{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+  .year{background:var(--pista);border:2px solid var(--pine);border-radius:14px;padding:12px 18px;box-shadow:3px 3px 0 rgba(58,42,32,.14)}
+  .year b{font-family:'Bevan',serif;font-size:1.35rem;color:var(--rosso);display:block;line-height:1.1}
+  .year span{font-size:.85rem;font-weight:500}
+  .frame{background:var(--panna);padding:12px;border:2px solid var(--pine);box-shadow:var(--hard)}
+  .frame img{width:100%;object-fit:cover}
+  .frame figcaption{font-family:'Yellowtail',cursive;font-size:1.25rem;color:var(--pine);padding:10px 4px 0;text-align:center}
+  .story .frame{transform:rotate(2deg)}
+  .story .frame img{aspect-ratio:4/5}
+
+  /* ============ Sorten-Scrollstrecke ============ */
+  .sorten{background:var(--pista);padding-top:0;padding-bottom:96px}
+  .sorten-head{max-width:640px;padding-top:88px}
+  .sorten-head p.note{margin-top:16px;font-size:1.05rem;font-weight:600;color:var(--pine)}
+  .sorten-stage{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;margin-top:24px}
+  .cone-stick{position:sticky;top:110px;align-self:start;display:flex;justify-content:center;padding:24px 0 40px}
+  .cone-build{width:min(250px,72%);position:relative}
+  .cone-build img{width:100%;height:auto;display:block}
+  .cone-build .base{filter:drop-shadow(8px 10px 0 rgba(58,42,32,.14))}
+  .cone-build .sc{position:absolute;inset:0;filter:drop-shadow(5px 7px 0 rgba(58,42,32,.10))}
+  /* Aufbau Zutat fuer Zutat: Waffel kommt mit Kugel 1, jede weitere Kugel faellt von oben ein */
+  html.js .cone-build .base{opacity:0;transform:translateY(16px) scale(.96);transition:opacity .5s var(--ease),transform .6s var(--ease)}
+  html.js .cone-build .sc{opacity:0;transform:translateY(-34px) scale(.88);transform-origin:50% 22%;transition:opacity .45s var(--ease),transform .6s var(--ease)}
+  html.js .cone-build.lv1 .base{opacity:1;transform:none}
+  html.js .cone-build.lv1 .s1{opacity:1;transform:none;transition-delay:.12s}
+  html.js .cone-build.lv2 .s2{opacity:1;transform:none}
+  html.js .cone-build.lv3 .s3{opacity:1;transform:none}
+  html.js .cone-build.lv4 .s4{opacity:1;transform:none}
+  .flavors{display:flex;flex-direction:column;gap:5vh;padding:4vh 0 8vh}
+  .flavor{display:flex;gap:22px;align-items:flex-start;min-height:38vh}
+  .flavor .ball{flex:0 0 auto;width:96px;height:96px;border-radius:52% 48% 50% 50%/55% 55% 45% 45%;border:2px solid var(--ciocco);box-shadow:4px 4px 0 rgba(58,42,32,.18);position:relative;overflow:hidden}
+  .flavor .ball::after{content:"";position:absolute;top:14px;left:16px;width:26px;height:14px;border-radius:50%;background:rgba(255,255,255,.55);transform:rotate(-18deg)}
+  .flavor h3{font-size:1.5rem;color:var(--pine);margin-top:6px}
+  .flavor .nr{font-family:'Yellowtail',cursive;font-size:1.3rem;color:var(--rosso);display:block}
+  .flavor p{margin-top:10px;max-width:44ch;font-size:1.03rem}
+  .flavor blockquote p{font-family:'Yellowtail',cursive;font-size:1.7rem;color:var(--pine);line-height:1.3;max-width:20ch}
+  .b-fragola{background:var(--fragola)}
+  .b-vaniglia{background:var(--vaniglia)}
+  .b-latte{background:var(--latte)}
+  .b-ciliegia{background:var(--rosso)}
+  .craft-photo{max-width:620px;margin:20px auto 0;transform:rotate(-1.5deg)}
+  .craft-photo img{aspect-ratio:4/3;object-fit:cover}
+
+  /* ============ Seeblick ============ */
+  .seeband{position:relative;padding:0;min-height:520px;display:flex;align-items:flex-end;
+    background:var(--pine) url('https://eiscafe-italia.info/wp-content/uploads/2016/04/slider-2.jpg') center/cover no-repeat}
+  .seeband .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,60,44,.06) 30%,rgba(23,60,44,.82) 100%)}
+  .seeband .inner{position:relative;padding:120px 0 64px;color:var(--panna)}
+  .seeband h2{color:#fff;text-shadow:0 2px 18px rgba(20,40,30,.4)}
+  .seeband p{max-width:56ch;margin-top:14px;font-size:1.06rem;color:#f2ecd9}
+  .seeband .kicker{color:var(--zabaione)}
+
+  /* ============ Ticker ============ */
+  .ticker{background:var(--pine);color:var(--panna);overflow:hidden;padding:13px 0;border-top:3px solid var(--pine-deep);border-bottom:3px solid var(--pine-deep)}
+  .ticker .lane{display:flex;gap:0;white-space:nowrap;width:max-content;animation:tick 46s linear infinite}
+  .ticker span{font-family:'Bevan',serif;font-size:.95rem;letter-spacing:.12em;padding-right:18px}
+  .ticker i{font-style:normal;color:var(--zabaione);padding-right:18px}
+  @keyframes tick{to{transform:translateX(-50%)}}
+
+  /* ============ Standorte ============ */
+  .locs{background:var(--rosso);color:var(--panna);padding-top:66px}
+  .locs h2{color:#fff}
+  .locs .kicker{color:var(--zabaione)}
+  .locs-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:44px}
+  .sign{background:var(--panna);color:var(--ciocco);border:3px solid var(--pine);box-shadow:8px 8px 0 rgba(40,20,12,.28);position:relative}
+  .sign::before,.sign::after{content:"";position:absolute;top:10px;width:10px;height:10px;border-radius:50%;background:var(--pine);opacity:.55}
+  .sign::before{left:10px}.sign::after{right:10px}
+  .sign img{width:100%;height:190px;object-fit:cover;border-bottom:3px solid var(--pine)}
+  .sign .bd{padding:26px 28px 30px}
+  .sign .tag{display:inline-block;font-family:'Yellowtail',cursive;font-size:1.25rem;color:var(--rosso)}
+  .sign h3{font-size:1.5rem;color:var(--pine);margin-top:2px}
+  .sign .addr{margin:10px 0 4px;font-weight:600}
+  .sign .hours{font-size:.96rem;margin-top:14px;border-top:2px dashed var(--pista-deep);padding-top:14px}
+  .sign .hours b{color:var(--pine)}
+  .season-note{text-align:center;margin-top:38px;font-size:1rem;color:#ffe9d8}
+  .season-note b{color:#fff}
+
+  /* ============ Presse ============ */
+  .press{background:var(--panna);padding-top:66px}
+  .press-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:42px}
+  .clip{background:#fff;border:1px solid #e4dcc6;padding:26px 24px;box-shadow:4px 4px 0 rgba(58,42,32,.1)}
+  .clip:nth-child(1){transform:rotate(-1.2deg)}
+  .clip:nth-child(2){transform:rotate(.8deg) translateY(10px)}
+  .clip:nth-child(3){transform:rotate(-.6deg)}
+  .clip p{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:1.12rem;line-height:1.45;color:#2c2119}
+  .clip .src{margin-top:14px;font-size:.8rem;font-weight:600;letter-spacing:.05em;color:var(--rosso)}
+  .duck{max-width:640px;margin:52px auto 0;background:var(--pista);border:2px solid var(--pine);border-radius:16px;padding:22px 26px;display:flex;gap:18px;align-items:center;box-shadow:4px 4px 0 rgba(58,42,32,.12)}
+  .duck svg{flex:0 0 54px}
+  .duck p{font-size:.98rem}
+  .duck b{color:var(--pine)}
+
+  /* ============ Kontakt ============ */
+  .contact{background:var(--pine);color:var(--panna);padding-top:66px}
+  .contact h2{color:#fff}
+  .contact .kicker{color:var(--zabaione)}
+  .contact-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start;margin-top:8px}
+  .big-phone{font-family:'Bevan',serif;font-size:clamp(1.7rem,3.4vw,2.5rem);color:var(--zabaione);margin:20px 0 6px;display:inline-block}
+  .big-phone:hover{color:#f6cf79}
+  .contact .info{margin-top:10px;font-size:1.03rem;color:#e4dec9}
+  .contact .info b{color:#fff}
+  .map-card{border:3px solid var(--panna);box-shadow:var(--hard);background:#dfe6df url('https://eiscafe-italia.info/wp-content/uploads/2016/02/anfahrt.jpg') center/cover;min-height:300px;position:relative}
+  .map-card a{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:18px;background:linear-gradient(180deg,transparent 55%,rgba(23,50,36,.72));color:#fff;font-weight:700}
+  .map-card a:hover{text-decoration:underline}
+
+  .sitefoot{background:var(--ciocco);color:#d8cbb8;padding:46px 0 42px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;align-items:center}
+  .foot .fbrand{font-family:'Bevan',serif;font-size:1.25rem;color:var(--panna)}
+  .foot .fdal{font-family:'Yellowtail',cursive;color:var(--zabaione);font-size:1.1rem;margin-left:8px}
+  .foot small{display:block;color:#a4967f;font-size:.82rem;margin-top:8px;max-width:54ch;line-height:1.5}
+  .foot .demo-note{font-size:.82rem;color:#a4967f;text-align:right}
+  .foot .demo-note b{color:var(--zabaione)}
+
+  /* ============ Mobil ============ */
+  @media(max-width:980px){
+    .sorten-stage{grid-template-columns:1fr}
+    .cone-stick{position:static;order:2;padding-top:8px}
+    .flavors{padding:2vh 0 0;gap:44px}
+    .flavor{min-height:0}
+  }
+  @media(max-width:900px){
+    .hero-grid,.story-grid,.locs-grid,.contact-grid{grid-template-columns:1fr;gap:44px}
+    .hero-visual{min-height:0;margin-top:8px;height:460px}
+    .cone-hero{height:505px}
+    .press-grid{grid-template-columns:1fr;max-width:560px;margin-inline:auto}
+    .clip:nth-child(2){transform:rotate(.8deg)}
+  }
+  @media(max-width:680px){
+    nav ul{display:none}
+    .burger{display:flex}
+    nav.open ul{display:flex;position:absolute;top:76px;left:0;right:0;flex-direction:column;background:var(--panna);padding:22px 24px;gap:18px;border-bottom:3px solid var(--pine);align-items:flex-start}
+    section{padding:64px 0}
+    .hero{padding:44px 0 84px}
+    .hero-visual{height:420px}
+    .cone-hero{height:452px;left:60%}
+    .postcard{width:min(280px,72%)}
+    .flavor .ball{width:76px;height:76px}
+    .foot{flex-direction:column;text-align:center}
+    .foot .demo-note{text-align:center}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .rays{animation:none}
+    .ticker .lane{animation:none}
+    html.js .pop{opacity:1;transform:none;transition:none}
+    html.js .cone-hero,html.js .cone-hero.in{opacity:1;transform:translateX(-50%);transition:none}
+    html.js .cone-build .base,html.js .cone-build .sc{opacity:1;transform:none;transition:none}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<div class="demobar">Unverbindliche <b>Demo-Ansicht</b> für das Eiscafe Italia — gestaltet von Louis, Student aus Konstanz · Inhalte &amp; Fotos von Ihrer bestehenden Seite</div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <span class="name">Eiscafe Italia</span>
+      <span class="dal" lang="it">dal 1953</span>
+    </a>
+    <nav id="nav" aria-label="Hauptnavigation">
+      <ul>
+        <li><a href="#geschichte">Geschichte</a></li>
+        <li><a href="#sorten">Unser Eis</a></li>
+        <li><a href="#standorte">Standorte</a></li>
+        <li><a href="#presse">Presse</a></li>
+        <li><a href="tel:+49754124451" class="callbtn">☎ 07541 24451</a></li>
+      </ul>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+<a id="top"></a>
+
+<!-- ============ Hero ============ -->
+<section class="hero" aria-label="Willkommen">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="script claim">Ein Stückchen Italia am Bodensee</span>
+      <h1>Hausgemachtes Eis. Seit 1953.</h1>
+      <p class="lead">Direkt an der Häfler Promenade in Friedrichshafen — mit einzigartigem Seepanorama, italienischer Tradition und einem Ort der Erholung und Entspannung.</p>
+      <div class="cta-row">
+        <a href="#standorte" class="btn btn-rosso">Öffnungszeiten &amp; Standorte</a>
+        <a href="#sorten" class="btn btn-panna">Was in unserem Eis steckt</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="rays" aria-hidden="true"></div>
+
+      <!-- Eiswaffel-Illustration (Gouache) -->
+      <img class="cone-hero" src="assets/gelato-cone-cut.png" alt="Gemalte Eiswaffel mit drei Kugeln – Erdbeere, Vanille und Milch – gekrönt von einer Kirsche" width="451" height="1170" fetchpriority="high">
+
+      <!-- Postkarte mit echtem Foto -->
+      <figure class="postcard">
+        <img src="https://eiscafe-italia.info/wp-content/uploads/2016/04/slider-1.jpg" alt="Das Eiscafe Italia an der Häfler Uferpromenade in Friedrichshafen" width="640" height="480">
+        <figcaption class="pc-cap">Friedrichshafen, am See</figcaption>
+        <svg class="stamp" viewBox="0 0 90 108" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <mask id="perf">
+              <rect width="90" height="108" fill="#fff"/>
+              <g fill="#000">
+                <circle cx="0" cy="9" r="4"/><circle cx="0" cy="27" r="4"/><circle cx="0" cy="45" r="4"/><circle cx="0" cy="63" r="4"/><circle cx="0" cy="81" r="4"/><circle cx="0" cy="99" r="4"/>
+                <circle cx="90" cy="9" r="4"/><circle cx="90" cy="27" r="4"/><circle cx="90" cy="45" r="4"/><circle cx="90" cy="63" r="4"/><circle cx="90" cy="81" r="4"/><circle cx="90" cy="99" r="4"/>
+                <circle cx="15" cy="0" r="4"/><circle cx="33" cy="0" r="4"/><circle cx="51" cy="0" r="4"/><circle cx="69" cy="0" r="4"/>
+                <circle cx="15" cy="108" r="4"/><circle cx="33" cy="108" r="4"/><circle cx="51" cy="108" r="4"/><circle cx="69" cy="108" r="4"/>
+              </g>
+            </mask>
+          </defs>
+          <rect width="90" height="108" fill="#e9b84c" mask="url(#perf)"/>
+          <rect x="8" y="8" width="74" height="92" fill="none" stroke="#3a2a20" stroke-width="2" mask="url(#perf)"/>
+          <path d="M37 62 L45 86 L53 62 Z" fill="#d9a05b" stroke="#3a2a20" stroke-width="2"/>
+          <circle cx="45" cy="52" r="12" fill="#a9c583" stroke="#3a2a20" stroke-width="2"/>
+          <circle cx="45" cy="38" r="10" fill="#e58fa0" stroke="#3a2a20" stroke-width="2"/>
+          <text x="45" y="25" text-anchor="middle" font-family="Libre Franklin,sans-serif" font-weight="700" font-size="10" fill="#3a2a20">DAL 1953</text>
+        </svg>
+        <svg class="postmark" viewBox="0 0 140 90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <defs><path id="pmCirc" d="M70 45 m-32 0 a32 32 0 1 1 64 0 a32 32 0 1 1 -64 0"/></defs>
+          <g fill="none" stroke="#1e4d38" stroke-width="2.5">
+            <circle cx="70" cy="45" r="40"/>
+            <path d="M2 30 h34 M2 45 h30 M2 60 h34" stroke-linecap="round"/>
+          </g>
+          <text font-family="Libre Franklin,sans-serif" font-weight="600" font-size="11.5" letter-spacing="2" fill="#1e4d38"><textPath href="#pmCirc">FRIEDRICHSHAFEN · BODENSEE ·</textPath></text>
+        </svg>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<div class="valance" aria-hidden="true"></div>
+
+<!-- ============ Geschichte ============ -->
+<section class="story" id="geschichte">
+  <div class="wrap story-grid">
+    <div>
+      <span class="script kicker" lang="it">la nostra storia</span>
+      <h2>Von den Dolomiten an den Bodensee.</h2>
+      <p>1953 eröffnete eine traditionelle Eismacher-Familie aus den Dolomiten das allererste Eiscafe an der wunderschönen Häfler Uferpromenade. Bis heute wird diese Tradition mit Herz weitergeführt — seit 2011 durch die Inhaber <b>Ivan Bottecchia &amp; Alan Piai</b>, ebenfalls aus den Dolomiten.</p>
+      <p>Mehr als 70 Jahre Erfahrung, echtes Handwerk und die Liebe zum italienischen Eis — Tag für Tag frisch bei uns hergestellt.</p>
+      <div class="years">
+        <div class="year pop"><b>1953</b><span>Gründung an der Promenade</span></div>
+        <div class="year pop"><b>2011</b><span>Bottecchia &amp; Piai übernehmen</span></div>
+        <div class="year pop"><b>70+</b><span>Jahre Tradition</span></div>
+      </div>
+    </div>
+    <figure class="frame">
+      <img src="https://eiscafe-italia.info/wp-content/uploads/2016/04/seit-1953-prev.jpg" alt="Das Eiscafe Italia – seit 1953 an der Uferpromenade" loading="lazy" width="600" height="750">
+      <figcaption lang="it">dal 1953</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ Sorten-Scrollstrecke ============ -->
+<section class="sorten" id="sorten">
+  <div class="scallop" style="--sc:var(--panna)" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sorten-head">
+      <span class="script kicker">Zutat für Zutat</span>
+      <h2>Was in unserem Eis steckt.</h2>
+      <p class="note">Nur natürliche, frische Produkte, ganz ohne Zusatzstoffe.</p>
+    </div>
+
+    <div class="sorten-stage">
+      <!-- Waffel, die sich beim Scrollen füllt (Gouache-Gemälde, Reveal von unten) -->
+      <div class="cone-stick" aria-hidden="true">
+        <div class="cone-build" id="coneBuild">
+          <img class="base" src="assets/cone-base.png" alt="" width="451" height="1170" loading="lazy">
+          <img class="sc s1" src="assets/scoop-1.png" alt="" width="451" height="1170" loading="lazy">
+          <img class="sc s2" src="assets/scoop-2.png" alt="" width="451" height="1170" loading="lazy">
+          <img class="sc s3" src="assets/scoop-3.png" alt="" width="451" height="1170" loading="lazy">
+          <img class="sc s4" src="assets/scoop-4.png" alt="" width="451" height="1170" loading="lazy">
+        </div>
+      </div>
+
+      <!-- Die Kugeln, eine nach der anderen -->
+      <div class="flavors">
+        <article class="flavor pop" data-scoop="1">
+          <div class="ball b-fragola" aria-hidden="true"></div>
+          <div>
+            <span class="nr script">die erste Zutat</span>
+            <h3>Erdbeeren</h3>
+            <p>Unser Fruchteis entsteht aus echten Früchten. Die Erdbeeren dafür kommen aus der Bodenseeregion, praktisch von nebenan.</p>
+          </div>
+        </article>
+        <article class="flavor pop" data-scoop="2">
+          <div class="ball b-vaniglia" aria-hidden="true"></div>
+          <div>
+            <span class="nr script">die zweite Zutat</span>
+            <h3>Echte Vanille</h3>
+            <p>Unser Vanilleeis machen wir mit echten Vanilleschoten aus Madagaskar.</p>
+          </div>
+        </article>
+        <article class="flavor pop" data-scoop="3">
+          <div class="ball b-latte" aria-hidden="true"></div>
+          <div>
+            <span class="nr script">die dritte Zutat</span>
+            <h3>Frische Milch</h3>
+            <p>Die Basis für unser Eis: frische Milch aus Ravensburg, mit besonderem Augenmerk auf regionale Herkunft.</p>
+          </div>
+        </article>
+        <article class="flavor pop" data-scoop="4">
+          <div class="ball b-ciliegia" aria-hidden="true"></div>
+          <div>
+            <span class="nr script">die Geheimzutat</span>
+            <h3>Zeit</h3>
+            <blockquote>
+              <p>„Unsere einzige Geheimzutat ist Zeit."</p>
+            </blockquote>
+            <p>Seit mehr als 60 Jahren stellen wir unser Eis auf ganz traditionelle Weise her: mit Herz, Leidenschaft und der nötigen Zeit.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <figure class="frame craft-photo">
+      <img src="https://eiscafe-italia.info/wp-content/uploads/2016/02/Eisherstellung-28-1024x768.jpg" alt="Traditionelle Eisherstellung im Eiscafe Italia" loading="lazy" width="1024" height="768">
+      <figcaption>Tag für Tag frisch hergestellt</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ Seeblick ============ -->
+<section class="seeband" id="erlebnis" role="img" aria-label="Seepanorama vom Eiscafe Italia an der Promenade">
+  <div class="veil" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <span class="script kicker">Genuss mit Seeblick</span>
+    <h2>Ihr Ort der Erholung.</h2>
+    <p>Eine Tasse Kaffee, hausgemachtes Eis oder eine von vielen anderen Köstlichkeiten — verwöhnt von unserem Team, mit einzigartigem Seepanorama direkt am Bodensee.</p>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="lane">
+    <span>GELATO</span><i>◦</i><span>CAFFÈ</span><i>◦</i><span>SEIT 1953</span><i>◦</i><span>HAUSGEMACHT</span><i>◦</i><span>AN DER PROMENADE</span><i>◦</i>
+    <span>GELATO</span><i>◦</i><span>CAFFÈ</span><i>◦</i><span>SEIT 1953</span><i>◦</i><span>HAUSGEMACHT</span><i>◦</i><span>AN DER PROMENADE</span><i>◦</i>
+  </div>
+</div>
+
+<!-- ============ Standorte ============ -->
+<section class="locs" id="standorte">
+  <div class="wrap">
+    <span class="script kicker" lang="it">ci vediamo!</span>
+    <h2>Zweimal in Friedrichshafen.</h2>
+    <div class="locs-grid">
+      <article class="sign">
+        <img src="https://eiscafe-italia.info/wp-content/uploads/2016/04/slider-3.jpg" alt="Das Stammhaus des Eiscafe Italia in der Seestraße" loading="lazy" width="640" height="380">
+        <div class="bd">
+          <span class="tag">Stammhaus · am See</span>
+          <h3>Eiscafe Italia</h3>
+          <p class="addr">Seestraße 10 · 88045 Friedrichshafen</p>
+          <p class="hours">
+            <b>Dienstag – Sonntag</b> ab 9:30 Uhr geöffnet<br>
+            Montag Ruhetag — an Pfingst-, Oster- &amp; Seehasenmontag auf den Dienstag verlegt
+          </p>
+        </div>
+      </article>
+      <article class="sign">
+        <img src="https://eiscafe-italia.info/wp-content/uploads/2016/08/P8221467-1024x925.jpg" alt="Die Zweigstelle „Eis to go" in der Charlottenstraße" loading="lazy" width="640" height="380">
+        <div class="bd">
+          <span class="tag">Zweigstelle · to go</span>
+          <h3>Eis to go</h3>
+          <p class="addr">Charlottenstraße 1 · 88045 Friedrichshafen</p>
+          <p class="hours">
+            <b>Montag – Freitag</b> ab 9:00 Uhr<br>
+            <b>Samstag – Sonntag</b> ab 11:00 Uhr
+          </p>
+        </div>
+      </article>
+    </div>
+    <p class="season-note"><b>Saison:</b> Stammhaus von Anfang März bis zum zweiten Sonntag im Oktober · „Eis to go“ von Ende Februar bis Mitte Oktober</p>
+  </div>
+</section>
+
+<!-- ============ Presse ============ -->
+<section class="press" id="presse">
+  <div class="scallop" style="--sc:var(--rosso);margin-top:-66px;margin-bottom:66px" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="script kicker">Über uns wird gesprochen</span>
+    <h2>Aus der Presse.</h2>
+    <div class="press-grid">
+      <blockquote class="clip">
+        <p>„Ein Stückchen Italia am Bodensee.“</p>
+        <footer class="src">Hafenkultur · Juli 2018</footer>
+      </blockquote>
+      <blockquote class="clip">
+        <p>„Seit 2011 betreiben Ivan Bottecchia und Alan Piai das Eiscafe ‚Italia‘ an der Häfler Promenade.“</p>
+        <footer class="src">Stadtwerke am See · 2018</footer>
+      </blockquote>
+      <blockquote class="clip">
+        <p>„Als das Eis nach Friedrichshafen kam.“</p>
+        <footer class="src">Südkurier · 2016</footer>
+      </blockquote>
+    </div>
+    <div class="duck">
+      <svg viewBox="0 0 60 54" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 34 q-8 -2 -10 -8 q6 2 10 0 q-4 -6 0 -12 q6 -9 15 -6 q7 2 8 10 q14 2 19 12 q-6 14 -22 14 q-14 0 -20 -10 Z" fill="#a9c583" stroke="#1e4d38" stroke-width="2.5"/>
+        <circle cx="25" cy="16" r="2.2" fill="#1e4d38"/>
+        <path d="M36 18 q6 0 7 4 q-4 2 -8 0" fill="#e9b84c" stroke="#1e4d38" stroke-width="2"/>
+      </svg>
+      <p>Ein Häfler Klassiker: Auf unserer Terrasse machte es sich einst eine <b>Wildente</b> gemütlich und brütete im Blumentopf sechs Eier aus. <span style="opacity:.7">(Südkurier)</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Kontakt ============ -->
+<section class="contact" id="kontakt">
+  <div class="scallop" style="--sc:var(--panna);margin-top:-66px;margin-bottom:60px" aria-hidden="true"></div>
+  <div class="wrap contact-grid">
+    <div>
+      <span class="script kicker" lang="it">a presto!</span>
+      <h2>Wir freuen uns auf Ihren Besuch.</h2>
+      <a href="tel:+49754124451" class="big-phone">07541 24451</a>
+      <p class="info"><b>Eiscafe Italia · EisLine GmbH</b><br>Ivan Bottecchia &amp; Alan Piai<br>Seestraße 10 · 88045 Friedrichshafen</p>
+      <p class="info" style="margin-top:16px"><b>Öffnungszeiten Stammhaus:</b><br>Dienstag – Sonntag ab 9:30 Uhr · Montag Ruhetag</p>
+    </div>
+    <div class="map-card">
+      <a href="https://www.google.com/maps/search/?api=1&query=Eiscafe+Italia+Seestraße+10+Friedrichshafen" target="_blank" rel="noopener">📍 Auf der Karte ansehen</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="sitefoot">
+  <div class="wrap foot">
+    <div>
+      <span class="fbrand">Eiscafe Italia</span><span class="fdal" lang="it">dal 1953</span>
+      <small>EisLine GmbH · Ivan Bottecchia &amp; Alan Piai · Seestraße 10, 88045 Friedrichshafen · Tel. 07541 24451 — Hausgemachtes Eis seit 1953, direkt am Bodensee.</small>
+    </div>
+    <div class="demo-note">
+      <b>Demo-Entwurf</b> · unverbindlich<br>gestaltet von Louis, Student aus Konstanz
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+
+  // Burger
+  const burger=document.getElementById('burger');
+  const nav=document.getElementById('nav');
+  burger.addEventListener('click',()=>{
+    const open=nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded',open?'true':'false');
+  });
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+
+  // Scroll-Erscheinen (Kugeln & Karten) — Inhalte sind ohne JS immer sichtbar
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if('IntersectionObserver' in window && !reduce){
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting)return;
+        e.target.classList.add('in');
+        // Sorten-Panel → Kugel auf der Waffel zeigen
+        const lv=e.target.getAttribute('data-scoop');
+        if(lv){const cb=document.getElementById('coneBuild');if(cb){for(let i=1;i<=+lv;i++)cb.classList.add('lv'+i);}}
+        io.unobserve(e.target);
+      });
+    },{threshold:.35,rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.pop').forEach(el=>io.observe(el));
+    // Hero-Waffel: direkt beim Laden poppen (above the fold)
+    requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelector('.cone-hero').classList.add('in')));
+  }else{
+    document.querySelectorAll('.pop,.cone-hero').forEach(el=>el.classList.add('in'));
+    const cb=document.getElementById('coneBuild');if(cb)cb.classList.add('lv1','lv2','lv3','lv4');
+  }
+</script>
+</body>
+</html>
